@@ -16,7 +16,6 @@ jobs:
         id: ShellStepID
         shell: python
         run: |
-            echo "Step running in python shell"
             x=4
             print(x**4)
             
