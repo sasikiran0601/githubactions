@@ -1,0 +1,22 @@
+name: first workflow
+
+on: 
+  workflow_dispatch:
+
+
+jobs:
+  first_job:
+    name: simple job execution
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Execution of the step 1
+        id: StepID
+        run: echo "Step 1 execution"
+      - name: Execution of step 2
+        id: ShellStepID
+        shell: python
+        run: |
+            echo "Step running in python shell"
+            x=4
+            print(x**4)
+            
