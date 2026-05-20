@@ -9,7 +9,50 @@ on:
 
 
 jobs:
+  test_experssions:
+    name: job to test expressions
+    runs-on: ubuntu-latest
+    env:
+      aBoolean: ${{true}}
+      aEmpty: ${{null}}
+      aNumber: ${{256}}
+      aString: Sasikiran ECE 3rd year
+      aEnclosedString: ${{'My name is sasi kiran'}}
+    steps:
+      - name: test null
+        if: (env.aEmpty == 'null')
+        run: echo "This is a null variable"
+      - name: test boolean
+        if: ${{toJson(env.aBoolean)}}
+        run: echo "this job will run"
+      - name: test contains function
+        if: ${{contains(env.aString,'Sasikiran')}}
+        run: |
+          echo "the word is present "
+          echos "but there is  typo so this step will fail"
+        
+      - name: test status check and format
+        if: ${{failure()}}
+        env:
+          FORMART_VAR: ${{format('Sasi kiran {0} {1} {2}','is','ECE','student')}} 
+        run: |
+          echo "This step runs a Failure script to clean up after the failure step"
+          echo ${{env.FORMART_VAR}}
+          
+      -  name: test starts with and always
+         if: ${{startsWith(env.aString,'Sasikiran') && always()}}
+         run: sleep 60
+      - name: Check for the cancel status
+        if: ${{cancelled()}}
+        run: echo "This code runs if a workflow is cancelled and also used to clean up the scripts"
+
+
+
+
+      
+      
   test_variables:
+    if: (github.event_name == 'pull_request')
     env:
       JOB_VAR: "JOB level vairable"
     name: to test variables
