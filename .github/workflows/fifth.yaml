@@ -1,0 +1,33 @@
+name: actions
+
+on: 
+  workflow_dispatch: 
+    inputs:
+      who-to-greet:
+        description: Who to greet in the log
+        required: true
+        default: 'Sasikiran'
+        type: string
+
+jobs:
+  test-actions:
+      name: actions job
+      runs-on: ubuntu-latest
+      steps:
+        - name: list all the files
+          run: ls -la
+        - name: checkout repo
+          uses: actions/checkout@v6.0.2
+        - name: list files after checkout repo
+          run: ls -la
+        - name: Print to Log
+          id: print-to-log
+          uses: actions/hello-world-javascript-action@main
+          with:
+            who-to-greet: ${{ inputs.who-to-greet }}
+        - name: greeting time
+          run: echo "'greeting time :'${{ steps.print-to-log.outputs.time}}"
+        - name: docker action
+          uses: actions/hello-world-docker-action@main
+          
+          
